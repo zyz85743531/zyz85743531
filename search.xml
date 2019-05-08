@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[about]]></title>
+    <url>%2F2019%2F05%2F08%2Fabout%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2019%2F05%2F07%2FXBFX%2F</url>
+    <content type="text"><![CDATA[ansjASaioodadad a sdadasd dasdammd 1$ hexo s aDNn 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253#include "ADC.h"#include "delay.h"//初始化 ADC//这里我们仅以规则通道为例//我们默认将开启通道 0~3void Adc_Init(void)&#123; ADC_InitTypeDef ADC_InitStructure; GPIO_InitTypeDef GPIO_InitStructure; RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_ADC1 , ENABLE ); //使能 ADC1 通道时钟 RCC_ADCCLKConfig(RCC_PCLK2_Div6); //设置 ADC 分频因子 6 //72M/6=12,ADC 最大时间不能超过 14M //PA1 作为模拟通道输入引脚 GPIO_InitStructure.GPIO_Pin =GPIO_Pin_1; GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;//模拟输入 GPIO_Init(GPIOA, &amp;GPIO_InitStructure); //初始化 GPIOA.1 ADC_DeInit(ADC1); //复位 ADC1,将外设 ADC1 的全部寄存器重设为缺省值 ADC_InitStructure.ADC_Mode = ADC_Mode_Independent; //ADC 独立模式 ADC_InitStructure.ADC_ScanConvMode = DISABLE; //单通道模式 ADC_InitStructure.ADC_ContinuousConvMode = DISABLE; //单次转换模式 ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;//转换由 //软件而不是外部触发启动 ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right; //ADC 数据右对齐 ADC_InitStructure.ADC_NbrOfChannel = 1; //顺序进行规则转换的 ADC 通道的数目 ADC_Init(ADC1, &amp;ADC_InitStructure); //根据指定的参数初始化外设 ADCx ADC_Cmd(ADC1, ENABLE); //使能指定的 ADC1 ADC_ResetCalibration(ADC1); //开启复位校准 while(ADC_GetResetCalibrationStatus(ADC1)); //等待复位校准结束 ADC_StartCalibration(ADC1); //开启 AD 校准 while(ADC_GetCalibrationStatus(ADC1)); //等待校准结束&#125;//获得 ADC 值//ch:通道值 0~3u16 Get_Adc(u8 ch)&#123; //设置指定 ADC 的规则组通道，设置它们的转化顺序和采样时间 ADC_RegularChannelConfig(ADC1, ch, 1, ADC_SampleTime_239Cycles5 ); //通道 1,规则采样顺序值为 1,采样时间为 239.5 周期 ADC_SoftwareStartConvCmd(ADC1, ENABLE); //使能软件转换功能 while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC ));//等待转换结束 return ADC_GetConversionValue(ADC1); //返回最近一次 ADC1 规则组的转换结果&#125;u16 Get_Adc_Average(u8 ch,u8 times)&#123; u32 temp_val=0; u8 t; for(t=0;t&lt;times;t++) &#123; temp_val+=Get_Adc(ch); delay_ms(5); &#125; return temp_val/times;&#125;]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2019%2F05%2F07%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+  </entry>
+</search>
